@@ -1,0 +1,48 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+def dependencyVersions = [
+        dropwizard: '1.1.2',
+]
+
+group = "uk.gov.ida"
+version = "$dependencyVersions.dropwizard-${System.env.BUILD_NUMBER ?: 'SNAPSHOT'}"
+
+repositories {
+    maven { url 'https://artifactory.ida.digital.cabinet-office.gov.uk/artifactory/whitelisted-repos' }
+}
+
+dependencies {
+    testCompile "io.dropwizard:dropwizard-testing:$dependencyVersions.dropwizard",
+            "org.mockito:mockito-core:1.9.5"
+
+
+    compile "io.dropwizard:dropwizard-core:$dependencyVersions.dropwizard",
+            "io.dropwizard:dropwizard-client:$dependencyVersions.dropwizard",
+            "io.dropwizard:dropwizard-configuration:$dependencyVersions.dropwizard",
+            'org.infinispan:infinispan-core:7.1.1.Final'
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId "dropwizard-infinispan"
+            from components.java
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "/srv/maven" // change to point to your repo, e.g. http://my.org/repo
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+defaultTasks 'clean', 'publishToMavenLocal'
+
