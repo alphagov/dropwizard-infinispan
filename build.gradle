@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 def dependencyVersions = [
-        dropwizard: '1.1.2',
+        dropwizard: '1.1.4',
 ]
 
 group = "uk.gov.ida"
@@ -45,4 +45,3 @@ task sourceJar(type: Jar) {
 }
 
 defaultTasks 'clean', 'publishToMavenLocal'
-
