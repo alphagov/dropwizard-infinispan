@@ -1,5 +1,7 @@
 # dropwizard-infinispan
 
+[![Build Status](https://travis-ci.org/alphagov/dropwizard-infinispan.svg?branch=master)](https://travis-ci.org/alphagov/dropwizard-infinispan)
+
 Dropwizard bundle and configuration for [Infinispan](https://infinispan.org).
 
 ## Using the library
