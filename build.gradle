@@ -1,12 +1,14 @@
-plugins {
-    id "com.jfrog.bintray" version "1.7.3"
-}
-
+plugins { id "com.jfrog.bintray" version "1.7.3" }
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 repositories {
-    mavenCentral()
+    if (System.getenv('VERIFY_USE_PUBLIC_BINARIES') == 'true') {
+        mavenCentral()
+    }
+    else {
+        maven { url 'https://artifactory.ida.digital.cabinet-office.gov.uk/artifactory/whitelisted-repos' }
+    }
 }
 
 def dependencyVersions = [
@@ -51,7 +53,7 @@ bintray {
     publications = ['mavenJava']
     publish = true
     pkg {
-        repo = 'maven'
+        repo = 'maven-test'
         name = 'dropwizard-infinispan'
         userOrg = 'alphagov'
         licenses = ['MIT']
