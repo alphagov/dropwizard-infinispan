@@ -1,7 +1,7 @@
 package uk.gov.ida.shared.dropwizard.infinispan.util;
 
-import com.codahale.metrics.JmxAttributeGauge;
 import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.jvm.JmxAttributeGauge;
 import com.google.common.base.Throwables;
 import io.dropwizard.lifecycle.Managed;
 import org.infinispan.Cache;
