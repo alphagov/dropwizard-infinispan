@@ -1,5 +1,8 @@
-plugins { id "com.jfrog.bintray" version "1.8.0" }
-apply plugin: 'java'
+plugins {
+    id "com.jfrog.bintray" version "1.8.4"
+    id 'java-library'
+}
+
 apply plugin: 'maven-publish'
 
 repositories {
@@ -12,18 +15,22 @@ repositories {
 }
 
 def dependencyVersions = [
-        dropwizard:"1.3.12"
+        dropwizard:"1.3.17"
 ]
 
 dependencies {
-    testCompile "io.dropwizard:dropwizard-testing:$dependencyVersions.dropwizard",
-            "org.mockito:mockito-core:1.9.5"
+    testImplementation "io.dropwizard:dropwizard-testing:$dependencyVersions.dropwizard",
+            "org.mockito:mockito-core:3.2.0"
 
-
-    compile "io.dropwizard:dropwizard-core:$dependencyVersions.dropwizard",
+    implementation "io.dropwizard:dropwizard-core:$dependencyVersions.dropwizard",
             "io.dropwizard:dropwizard-client:$dependencyVersions.dropwizard",
-            "io.dropwizard:dropwizard-configuration:$dependencyVersions.dropwizard",
-            'org.infinispan:infinispan-core:7.1.1.Final'
+            "io.dropwizard:dropwizard-configuration:$dependencyVersions.dropwizard"
+
+    api 'org.infinispan:infinispan-core:7.1.1.Final'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
 }
 
 publishing {
@@ -62,10 +69,6 @@ bintray {
             name = "$dependencyVersions.dropwizard-${System.env.BUILD_NUMBER ?: 'SNAPSHOT'}"
         }
     }
-}
-
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
 }
 
 defaultTasks 'clean', 'publishToMavenLocal'
